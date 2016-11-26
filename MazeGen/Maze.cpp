@@ -15,27 +15,12 @@ Maze::Maze(const int width, const int height)
 			matrix[i][c] = Node(i, c);
 		}
 	}
+
 	start = &matrix[0][0];
 	end = &matrix[height - 1][width - 1];
 	start->member = true;
 	members.push_back(start);
 	members.push_back(end);
-	//int x = 1, y = 1;
-	/*Node* old;
-	Node* next;*/
-	//old = start;
-	//for (y = 1; y < height; y++)
-	//{
-	//	next = &matrix[y][x];
-	//	old->add(next);
-	//	old = next;
-	//	for (x = 1; x < width; x++);
-	//	{
-	//		next = &matrix[y][x];
-	//		old->add(next);
-	//		old = next;
-	//	}
-	//}
 	select(start);
 }
 
@@ -78,85 +63,6 @@ bool Maze::select(Node* node)
 			selected = adjacent.at(0);
 		else if (DFS(adjacent.at(1)->location.second, adjacent.at(1)->location.first))
 			selected = adjacent.at(1);
-		/*int aDiff, bDiff;
-		int xDiff = adjacent.at(0)->location.second - node->location.second;
-		int yDiff = adjacent.at(0)->location.first - node->location.first;
-		if (xDiff != 0)
-		{
-			int xDiff2 = adjacent.at(1)->location.second - node->location.second;
-			bool clearX0 = clearToEndX(xDiff, adjacent.at(0)->location.second, adjacent.at(0)->location.first);
-			bool clearX1 = clearToEndX(xDiff2, adjacent.at(1)->location.second, adjacent.at(1)->location.first);
-			if (clearX0 && clearX1)
-			{
-				aDiff = end->location.second - adjacent.at(0)->location.second;
-				bDiff = end->location.second - adjacent.at(1)->location.second;
-				if (aDiff > bDiff)
-					selected = adjacent.at(1);
-				if (bDiff > aDiff)
-					selected = adjacent.at(0);
-			}
-			else if (clearX0)
-			{
-				selected = adjacent.at(0);
-			}
-			else if (clearX1)
-			{
-				selected = adjacent.at(1);
-			}
-			else
-			{
-				bool clearYS0 = clearToEndY(1, adjacent.at(0)->location.second, adjacent.at(0)->location.first);
-				bool clearYN0 = clearToEndY(-1, adjacent.at(0)->location.second, adjacent.at(0)->location.first);
-				if (clearYS0 || clearYN0)
-				{
-					selected = adjacent.at(0);
-				}
-				bool clearYS1 = clearToEndY(1, adjacent.at(1)->location.second, adjacent.at(1)->location.first);
-				bool clearYN1 = clearToEndY(-1, adjacent.at(1)->location.second, adjacent.at(1)->location.first);
-				if (clearYS1 || clearYN1)
-				{
-					selected = adjacent.at(1);
-				}
-			}
-		}
-		if (yDiff != 0)
-		{
-			int yDiff2 = adjacent.at(1)->location.first - node->location.first;
-			bool clearY0 = clearToEndY(yDiff, adjacent.at(0)->location.second, adjacent.at(0)->location.first);
-			bool clearY1 = clearToEndY(yDiff2, adjacent.at(1)->location.second, adjacent.at(1)->location.first);
-			if (clearY0 && clearY1)
-			{
-				aDiff = end->location.first - adjacent.at(0)->location.first;
-				bDiff = end->location.first - adjacent.at(1)->location.first;
-				if (aDiff > bDiff)
-					selected = adjacent.at(1);
-				if (bDiff > aDiff)
-					selected = adjacent.at(0);
-			}
-			else if (clearY0)
-			{
-				selected = adjacent.at(0);
-			}
-			else if (clearY1)
-			{
-				selected = adjacent.at(1);
-			}
-			else
-			{
-				bool clearXS0 = clearToEndX(1, adjacent.at(0)->location.second, adjacent.at(0)->location.first);
-				bool clearXN0 = clearToEndX(-1, adjacent.at(0)->location.second, adjacent.at(0)->location.first);
-				if (clearXS0 || clearXN0)
-				{
-					selected = adjacent.at(0);
-				}
-				bool clearXS1 = clearToEndX(1, adjacent.at(1)->location.second, adjacent.at(1)->location.first);
-				bool clearXN1 = clearToEndX(-1, adjacent.at(1)->location.second, adjacent.at(1)->location.first);
-				if (clearXS1 || clearXN1)
-				{
-					selected = adjacent.at(1);
-				}
-			}*/
-		//}
 	}
 	else if (adjacent.size() > 0)
 	{
@@ -165,14 +71,13 @@ bool Maze::select(Node* node)
 	}
 	else
 		return false;
-	if (selected != nullptr)
-		node->add(selected);
 	if (selected != end)
 	{
 		std::system("cls");
 		print();
 		std::cout << "Adj:" << adjacent.size() << " Choice:" << rand;
 		std::getchar();
+		node->add(selected);
 		members.push_back(selected);
 		return select(selected);
 	}
@@ -189,7 +94,8 @@ bool Maze::spawnBranch()
 		return false;
 	std::srand(time(NULL));
 	int rand = std::rand() % members.size();
-	if (!selectBranch(members.at(rand)))
+	Node* node = members.at(rand);
+	if (!selectBranch(node))
 		return spawnBranch();
 	return true;
 }
@@ -234,6 +140,7 @@ bool Maze::selectBranch(Node* node)
 		print();
 		std::getchar();
 		members.push_back(selected);
+		node->add(selected);
 		return selectBranch(selected);
 	}
 	return true;
@@ -250,16 +157,67 @@ void Maze::eraseMember(Node* node)
 }
 void Maze::print()
 {
+	Node *node = nullptr;
+	Node *nodeN = nullptr;
+	Node *nodeE = nullptr;
+	Node *nodeS = nullptr;
+	Node *nodeW = nullptr;
+	const int height = dims.first * 2 + 1;
+	const int width = dims.second * 2 + 1;
+	char ** drawable;
+	drawable = new char*[height];
+	for (int i = 0; i < height; i++)
+	{
+		drawable[i] = new char[width];
+		for (int c = 0; c < width; c++)
+		{
+			drawable[i][c] = '0';
+		}
+	}
+
 	for (int i = 0; i < dims.first; i++)
 	{
 		for (int c = 0; c < dims.second; c++)
 		{
-			if (matrix[i][c].member == true)
-				std::cout << "*";
-			else if (matrix[i][c].visited == true)
-				std::cout << "o";
-			else
-				std::cout << "-";
+			node = &matrix[i][c];
+			if (i - 1 >= 0)
+				nodeN = &matrix[i - 1][c];
+			if (c + 1 < dims.second)
+				nodeE = &matrix[i][c + 1];
+			if (i + 1 < dims.first)
+				nodeS = &matrix[i + 1][c];
+			if (c - 1 >= 0)
+				nodeW = &matrix[i][c - 1];
+			int newi = i * 2 + 1;
+			int newc = c * 2 + 1;
+
+			if(node->member == true)
+				drawable[newi][newc] = ' ';
+
+			if (nodeN != nullptr)
+				if (node->elemNexts(nodeN))
+					drawable[newi - 1][newc] = ' ';
+			if (nodeE != nullptr)
+				if (node->elemNexts(nodeE))
+					drawable[newi][newc + 1] = ' ';
+			if (nodeS != nullptr)
+				if (node->elemNexts(nodeS))
+					drawable[newi + 1][newc] = ' ';
+			if (nodeW != nullptr)
+				if (node->elemNexts(nodeW))
+					drawable[newi][newc - 1] = ' ';
+
+			nodeN = nullptr;
+			nodeE = nullptr;
+			nodeS = nullptr;
+			nodeW = nullptr;
+		}
+	}
+	for (int i = 0; i < height; i++)
+	{
+		for (int c = 0; c < width; c++)
+		{
+			std::putchar(drawable[i][c]);
 		}
 		std::cout << std::endl;
 	}
@@ -298,10 +256,10 @@ bool Maze::DFS(int posX, int posY)
 }
 
 bool Maze::DFSUntil(Node* node, bool found)
-{
+{/*
 	std::system("cls");
 	print();
-	std::getchar();
+	std::getchar();*/
 
 	std::vector<Node*> adjacent;
 	node->visited = true;

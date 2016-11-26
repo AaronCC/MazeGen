@@ -10,6 +10,7 @@ int main()
 		branches++;
 	std::system("cls");
 	maze.print();
+	std::cout << "ALL DONE!";
 	std::getchar();
 	return 0;
 }

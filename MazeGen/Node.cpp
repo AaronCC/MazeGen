@@ -30,4 +30,3 @@ void Node::clear()
 {
 	nexts.clear();
 }
-

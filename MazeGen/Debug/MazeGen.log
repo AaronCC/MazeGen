@@ -1,10 +1,7 @@
 ﻿  Maze.cpp
-c:\users\aaron\documents\visual studio 2015\projects\mazegen\mazegen\maze.cpp(69): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\aaron\documents\visual studio 2015\projects\mazegen\mazegen\maze.cpp(190): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\aaron\documents\visual studio 2015\projects\mazegen\mazegen\maze.cpp(199): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\aaron\documents\visual studio 2015\projects\mazegen\mazegen\maze.cpp(243): warning C4018: '<': signed/unsigned mismatch
-c:\users\aaron\documents\visual studio 2015\projects\mazegen\mazegen\maze.cpp(308): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  Main.cpp
+c:\users\aaron\documents\visual studio 2015\projects\mazegen\mazegen\maze.cpp(54): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\aaron\documents\visual studio 2015\projects\mazegen\mazegen\maze.cpp(95): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\aaron\documents\visual studio 2015\projects\mazegen\mazegen\maze.cpp(105): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\aaron\documents\visual studio 2015\projects\mazegen\mazegen\maze.cpp(150): warning C4018: '<': signed/unsigned mismatch
+c:\users\aaron\documents\visual studio 2015\projects\mazegen\mazegen\maze.cpp(267): warning C4018: '<': signed/unsigned mismatch
   MazeGen.vcxproj -> C:\Users\Aaron\Documents\Visual Studio 2015\Projects\MazeGen\Debug\MazeGen.exe
