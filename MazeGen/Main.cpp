@@ -3,7 +3,9 @@
 int main()
 {
 	int branches = 0;
-	Maze maze(10, 10);
+	int x, y;
+	std::cin >> x >> y;
+	Maze maze(x, y);
 	while (maze.spawnBranch())
 		branches++;
 	std::system("cls");

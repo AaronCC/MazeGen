@@ -9,7 +9,10 @@ public:
 	bool spawnBranch();
 	bool selectBranch(Node* node);
 	void print();
+	bool DFS(int x, int y);
+	bool DFSUntil(Node * node, bool found);
 	void eraseMember(Node* node);
+	std::vector<Node*> getAdjacent(Node* node);
 	bool clearToEndY(int dir, int x, int y);
 	bool clearToEndX(int dir, int x, int y);
 	//bool canEscape(Node* node);

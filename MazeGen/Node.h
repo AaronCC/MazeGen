@@ -7,6 +7,7 @@ class Node {
 	 void add(Node* next);
 	 void clear();
 	 bool member;
+	 bool visited;
 	 bool elemNexts(Node* node);
 	 std::pair<int, int> location;
  private:
